@@ -4,12 +4,12 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "cli": "npm run build --silent && node dist/cli/Main.js",
+    "cli": "tsc && node dist/cli/Main.js",
     "build": "tsc",
-    "test": "npm run build --silent && node --test test/*.test.mjs",
+    "test": "tsc && node --test test/*.test.mjs",
     "format": "prettier --write src test doc README.md package.json tsconfig.json",
     "format:check": "prettier --check src test doc README.md package.json tsconfig.json",
-    "check": "npm run build && npm test && npm run format:check"
+    "check": "tsc && node --test test/*.test.mjs && prettier --check src test doc README.md package.json tsconfig.json"
   },
   "dependencies": {
     "@xmldom/xmldom": "0.9.12"

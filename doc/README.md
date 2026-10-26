@@ -6,15 +6,15 @@
 
 ### 1. 模块划分
 
-| 目录 | 职责 | 代表类 |
-| --- | --- | --- |
-| `src/domain/` | 图形身份、几何行为、树结构、画布和图形构造；不读文件、不解析命令 | Shape、Rect、Circle、Ellipse、Line、Text、Group、Drawing、ShapeFactory |
-| `src/application/` | 一次编辑的业务行为、撤销重做事务、外部能力接口 | EditCommand、各具体 Command、History、FileStore、DrawingCodec |
-| `src/infrastructure/` | SVG XML 与领域对象的转换、UTF-8 文件读写 | SvgCodec、NodeFileStore |
-| `src/cli/` | 参数解析、命令路由、文本显示、REPL 与依赖装配 | Tokenizer、Editor、TreeRenderer、Main |
-| `test/` | 行为、真实进程、文件 IO、架构依赖测试 | Node 原生 test runner |
-| `examples/` | 可回放脚本、生成的 SVG、实际输出、外部 SVG 输入 | flowchart.txt、other.svg |
-| `doc/` | 方案、过程、验证与需求追踪 | 本文件、architecture.puml、requirements.md |
+| 目录                  | 职责                                                             | 代表类                                                                 |
+| --------------------- | ---------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| `src/domain/`         | 图形身份、几何行为、树结构、画布和图形构造；不读文件、不解析命令 | Shape、Rect、Circle、Ellipse、Line、Text、Group、Drawing、ShapeFactory |
+| `src/application/`    | 一次编辑的业务行为、撤销重做事务、外部能力接口                   | EditCommand、各具体 Command、History、FileStore、DrawingCodec          |
+| `src/infrastructure/` | SVG XML 与领域对象的转换、UTF-8 文件读写                         | SvgCodec、NodeFileStore                                                |
+| `src/cli/`            | 参数解析、命令路由、文本显示、REPL 与依赖装配                    | Tokenizer、Editor、TreeRenderer、Main                                  |
+| `test/`               | 行为、真实进程、文件 IO、架构依赖测试                            | Node 原生 test runner                                                  |
+| `examples/`           | 可回放脚本、生成的 SVG、实际输出、外部 SVG 输入                  | flowchart.txt、other.svg                                               |
+| `doc/`                | 方案、过程、验证与需求追踪                                       | 本文件、architecture.puml、requirements.md                             |
 
 组件图的 PlantUML 源文件为 [architecture.puml](architecture.puml)，下列同源图便于没有 PlantUML 扩展的读者直接理解：
 
@@ -49,42 +49,42 @@ flowchart TD
 
 ### 3. 依赖方向规则
 
-| 模块 | 可以依赖 | 理由 |
-| --- | --- | --- |
-| domain | domain | 核心模型独立于 UI、文件和 XML 库 |
-| application | application、domain | 编辑规则只操作领域行为，IO 以接口表示 |
-| infrastructure | application 接口、domain、Node/XML 库 | 适配器实现端口；外部变化在此收敛 |
-| cli（除 Main） | cli、application、domain | 解释输入、调用业务、展示结果 |
-| Main | cli、infrastructure | 唯一装配入口，可明确选择具体适配器 |
-| test | 所有被测模块 | 验证跨层行为，不被生产代码反向引用 |
+| 模块           | 可以依赖                              | 理由                                  |
+| -------------- | ------------------------------------- | ------------------------------------- |
+| domain         | domain                                | 核心模型独立于 UI、文件和 XML 库      |
+| application    | application、domain                   | 编辑规则只操作领域行为，IO 以接口表示 |
+| infrastructure | application 接口、domain、Node/XML 库 | 适配器实现端口；外部变化在此收敛      |
+| cli（除 Main） | cli、application、domain              | 解释输入、调用业务、展示结果          |
+| Main           | cli、infrastructure                   | 唯一装配入口，可明确选择具体适配器    |
+| test           | 所有被测模块                          | 验证跨层行为，不被生产代码反向引用    |
 
 禁止 domain/application 导入 CLI 或 infrastructure；禁止 domain 导入 application 或 Node IO。`test/architecture.test.mjs` 检查核心层的这些规则；Main 对具体适配器的依赖属于已声明的装配职责，不是隐含例外。
 
 ### 4. 变化点假设
 
-| 可能变化 | 预留与取舍 |
-| --- | --- |
-| 增加 box 等复合图形 | Shape 多态与 Group 组合结构已存在；工厂注册表待抽成 Provider。本次不声称已实现零内核改动插件化 |
-| CLI 之外增加 GUI/Agent | Command 与领域层可复用；字符串解析和树显示留在 cli |
-| 换文件系统或存储位置 | FileStore 接口可替换；文件适配器使用临时文件再 rename，减少写入失败造成的破坏 |
-| XML 解析库变化 | DrawingCodec 隔离解析器；本次升级已通过编译及往返测试验证 |
-| 文档规模增大 | 当前快照历史简单可靠；没有提前引入差量补丁或持久化树，避免额外复杂度 |
-| 输出需要更精确对齐 | TreeRenderer 独立；目前保留树线、id、全部已设置属性，不要求列宽与示例逐字相同 |
+| 可能变化               | 预留与取舍                                                                                     |
+| ---------------------- | ---------------------------------------------------------------------------------------------- |
+| 增加 box 等复合图形    | Shape 多态与 Group 组合结构已存在；工厂注册表待抽成 Provider。本次不声称已实现零内核改动插件化 |
+| CLI 之外增加 GUI/Agent | Command 与领域层可复用；字符串解析和树显示留在 cli                                             |
+| 换文件系统或存储位置   | FileStore 接口可替换；文件适配器使用临时文件再 rename，减少写入失败造成的破坏                  |
+| XML 解析库变化         | DrawingCodec 隔离解析器；本次升级已通过编译及往返测试验证                                      |
+| 文档规模增大           | 当前快照历史简单可靠；没有提前引入差量补丁或持久化树，避免额外复杂度                           |
+| 输出需要更精确对齐     | TreeRenderer 独立；目前保留树线、id、全部已设置属性，不要求列宽与示例逐字相同                  |
 
 ## 二、过程记录
 
 以下以我的项目视角记录本次与 AI 助手协作的真实过程。实现、命令执行与测试由 AI 完成；不把 AI 的自查伪写成我已亲自运行或审阅。
 
-| 迭代 | 发现与确认 | 处理与证据 |
-| --- | --- | --- |
-| 需求读取 | 我要求完整完成作业、先建仓、禁止一次性大提交；文档明确 box 不属本阶段 | AI 完整读取原文，先创建私有 GitHub 仓库，再按工程、模型、图形、命令、IO、CLI 逐步提交 |
-| 撤销边界 | save 与 canvas 修改尺寸也会设置 IO 屏障，容易只处理 init/read | History 单独建模 barrier；测试同时覆盖成功 IO、失败 IO 和下一次编辑解禁 |
-| XML 依赖 | 安装器报告原选 0.8.11 存在严重问题 | 独立升级到 0.9.12，编译发现 localName 可空，另一次提交修复类型兼容；npm audit 复查 |
-| 启动依赖 | 当前环境 tsx 启动时报 uv_os_get_passwd 错误 | 改为 tsc 编译后由 Node 执行；移除 tsx/esbuild，单独提交依赖修复 |
-| 名称分派检查 | 导入实现曾通过 tag 判断 text，会形成第三处名称分派 | 把读取文本放到 Shape.importText/Text.override，独立重构并复测 |
-| 测试自身问题 | 模拟写失败开关未复位；流程图总元素误计为 9 | 修正测试夹具和预期；实际为 3 个 g、2 个 rect、2 个 text、1 条 line，共 8 个，与原文一致 |
-| Git 传输 | Windows Git 的 TLS/凭据存储失败；不能把本地提交冒充推送成功 | 用已连接 GitHub 插件按本地提交顺序重建远程提交链，保留提交主题与文件范围；API 生成的远程 SHA 与本地 SHA 不同 |
-| 安装复现 | 环境没有全局 npm，默认 npm cache 路径也不可写 | 使用临时 npm 工具、工作区缓存和隔离目录验证；这些环境临时工具不作为项目依赖提交 |
+| 迭代         | 发现与确认                                                            | 处理与证据                                                                                                   |
+| ------------ | --------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| 需求读取     | 我要求完整完成作业、先建仓、禁止一次性大提交；文档明确 box 不属本阶段 | AI 完整读取原文，先创建私有 GitHub 仓库，再按工程、模型、图形、命令、IO、CLI 逐步提交                        |
+| 撤销边界     | save 与 canvas 修改尺寸也会设置 IO 屏障，容易只处理 init/read         | History 单独建模 barrier；测试同时覆盖成功 IO、失败 IO 和下一次编辑解禁                                      |
+| XML 依赖     | 安装器报告原选 0.8.11 存在严重问题                                    | 独立升级到 0.9.12，编译发现 localName 可空，另一次提交修复类型兼容；npm audit 复查                           |
+| 启动依赖     | 当前环境 tsx 启动时报 uv_os_get_passwd 错误                           | 改为 tsc 编译后由 Node 执行；移除 tsx/esbuild，单独提交依赖修复                                              |
+| 名称分派检查 | 导入实现曾通过 tag 判断 text，会形成第三处名称分派                    | 把读取文本放到 Shape.importText/Text.override，独立重构并复测                                                |
+| 测试自身问题 | 模拟写失败开关未复位；流程图总元素误计为 9                            | 修正测试夹具和预期；实际为 3 个 g、2 个 rect、2 个 text、1 条 line，共 8 个，与原文一致                      |
+| Git 传输     | Windows Git 的 TLS/凭据存储失败；不能把本地提交冒充推送成功           | 用已连接 GitHub 插件按本地提交顺序重建远程提交链，保留提交主题与文件范围；API 生成的远程 SHA 与本地 SHA 不同 |
+| 安装复现     | 环境没有全局 npm，默认 npm cache 路径也不可写                         | 使用临时 npm 工具、工作区缓存和隔离目录验证；这些环境临时工具不作为项目依赖提交                              |
 
 修订记录：模块结构保持最初的四层方案；运行方式从 tsx 改为编译后执行；导入文本从标签判断改为多态；锁文件统一以 npm 为交付安装入口。提交历史记录这些变化，不把过程整理成一次完成的假象。
 
