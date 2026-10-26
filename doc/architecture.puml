@@ -2,16 +2,16 @@
 title SVG CLI Phase 1 — 模块依赖
 skinparam componentStyle rectangle
 package "cli" {
-  [Main / Composition Root] as Main
-  [Editor / Tokenizer / TreeRenderer] as CLI
+  [Main\nComposition Root] as Main
+  [Editor\nTokenizer / TreeRenderer] as CLI
 }
 package "application" {
-  [EditCommand / Concrete Commands / History] as App
+  [EditCommand\nConcrete Commands\nHistory] as App
   interface FileStore
   interface DrawingCodec
 }
 package "domain" {
-  [Drawing / Shape / Group / Six Shapes / ShapeFactory] as Domain
+  [Drawing / Shape / Group\nSix Shapes / ShapeFactory] as Domain
 }
 package "infrastructure" {
   [NodeFileStore] as FS
@@ -31,3 +31,4 @@ XML --> Domain
 XML --> [xmldom]
 FS --> [Node fs]
 @enduml
+
