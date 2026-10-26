@@ -7,9 +7,10 @@
     "cli": "tsc && node dist/cli/Main.js",
     "build": "tsc",
     "test": "tsc && node --test test/*.test.mjs",
-    "format": "prettier --write src test doc README.md package.json tsconfig.json",
-    "format:check": "prettier --check src test doc README.md package.json tsconfig.json",
-    "check": "tsc && node --test test/*.test.mjs && prettier --check src test doc README.md package.json tsconfig.json"
+    "format": "prettier --write src test scripts doc README.md package.json tsconfig.json",
+    "format:check": "prettier --check src test scripts doc README.md package.json tsconfig.json",
+    "check": "tsc && node --test test/*.test.mjs && prettier --check src test scripts doc README.md package.json tsconfig.json",
+    "audit:history": "node scripts/HistoryAudit.mjs"
   },
   "dependencies": {
     "@xmldom/xmldom": "0.9.12"
