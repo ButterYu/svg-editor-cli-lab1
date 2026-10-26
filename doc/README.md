@@ -168,3 +168,5 @@ AI 从公开 GitHub 仓库重新克隆，固定原 final 提交 `6de1781a1929e58
 常规 CI 继续对每次推送运行安装、编译、测试、格式检查和依赖审计；新增 `npm run verify:audit` 校验原 26 个提交的祖先顺序、源码树、原时间戳、日志哈希和实际依赖锁。本次新增提交各自触发 CI，记录入口见 [新增提交的 CI 对照](follow-up-ci.md)。
 
 另有手动工作流 `Retrospective history audit`，允许指定精确截止 SHA，在 Ubuntu / Node 22 上重新导出逐版本报告并保存 Actions artifact。它与开发期间 CI 明确分开命名，不伪装成历史上曾经执行的检查。
+
+该工作流本次已实际运行成功，26 个版本的主要判定与 Windows 回放一致；环境、时间、逐版本表与 artifact 摘要见 [Ubuntu / Node 22 回放记录](history-audit-linux.md)。
