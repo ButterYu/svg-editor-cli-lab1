@@ -14,7 +14,7 @@
 | 流程图回放          | 通过         | 保存 8 个元素，中文内容为“处理数据 v2”，undo 后右节点 y=100                             |
 | 图形可读性          | 已检查       | SVG 栅格预览检查节点、文字和位置；PlantUML 图补白色背景并分行，避免深色背景下文字不可读 |
 
-11 项测试可通过 `npm test` 查看名称。它们包括多条断言，不能把 11 误写成 11 条命令或 11 个功能。
+以上 11 项是原 final 版本的应用与架构测试。本次补做历史核验后，又加入两组核验工具测试，当前共 13 项，可通过 `npm test` 查看名称；原版计数不追溯修改。每项包括多条断言，不能等同于命令数量。
 
 ## 环境与可复现说明
 
@@ -31,6 +31,8 @@ npm audit --audit-level=low
 图示渲染用 PlantUML 官方服务生成 SVG，源文件与结果均提交；运行 CLI 不需要该服务。交付包不含 node_modules 和 dist，依赖安装后通过 tsc 生成 dist。
 
 ## 审查提示
+
+新增的 [逐提交回溯记录](history-audit/README.md) 覆盖原 final 及其全部祖先共 26 个版本，保留失败与无测试状态；它生成于本次补做时，并非原开发时的检查记录。运行 `npm run verify:audit` 可校验顺序、原树/时间戳以及证据文件哈希。新增提交对应的实际 CI 记录见 [follow-up-ci.md](follow-up-ci.md)。
 
 - 先阅读 doc/README.md 的依赖方向，再查看 domain、application、infrastructure、cli。
 - 编辑命令在候选文档上执行；检查失败时是否可能改变原树及 redo。
