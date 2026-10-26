@@ -1,0 +1,186 @@
+import { spawnSync } from "node:child_process";
+import {
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  readdirSync,
+  writeFileSync,
+} from "node:fs";
+import { createHash } from "node:crypto";
+import { delimiter, dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+
+/** Retrospective verification: never modifies the historical repository or refs. */
+export class HistoryAudit {
+  static classify(result, hasTests = true) {
+    if (result.status === null) return "execution-error";
+    if (result.status === 0) return "pass";
+    if (!hasTests) return "no-tests-at-revision";
+    return "fail";
+  }
+
+  constructor(options) {
+    this.repo = resolve(options.repo ?? ".");
+    this.out = resolve(options.out ?? "history-audit-output");
+    this.until = options.until;
+    this.npmCli = options["npm-cli"] ?? process.env.npm_execpath;
+    if (!/^[a-f0-9]{40}$/.test(this.until ?? "")) {
+      throw new Error("--until requires an exact 40-character commit SHA");
+    }
+    if (!this.npmCli || !existsSync(this.npmCli)) {
+      throw new Error("invoke via npm or provide --npm-cli /path/to/npm-cli.js");
+    }
+    this.npmCli = resolve(this.npmCli);
+    if (existsSync(this.out)) throw new Error("--out must be a new directory");
+    mkdirSync(this.out, { recursive: true });
+    mkdirSync(join(this.out, "logs"));
+    mkdirSync(join(this.out, "bin"));
+    this.env = {
+      ...process.env,
+      npm_config_cache: join(this.out, "npm-cache"),
+      npm_config_update_notifier: "false",
+      NO_COLOR: "1",
+      PATH: join(this.out, "bin") + delimiter + process.env.PATH,
+    };
+    if (process.platform === "win32") {
+      writeFileSync(
+        join(this.out, "bin", "npm.cmd"),
+        `@"${process.execPath}" "${this.npmCli}" %*\r\n`,
+      );
+    }
+  }
+
+  command(executable, args, cwd, timeout = 120000) {
+    const start = new Date().toISOString();
+    const result = spawnSync(executable, args, {
+      cwd,
+      env: this.env,
+      encoding: "utf8",
+      timeout,
+      maxBuffer: 8 * 1024 * 1024,
+    });
+    return {
+      command: [executable, ...args],
+      startedAt: start,
+      finishedAt: new Date().toISOString(),
+      status: result.status,
+      signal: result.signal,
+      error: result.error?.message ?? null,
+      stdout: result.stdout ?? "",
+      stderr: result.stderr ?? "",
+    };
+  }
+
+  git(args) {
+    const result = this.command("git", args, this.repo);
+    if (result.status !== 0) throw new Error(result.stderr || result.error);
+    return result.stdout.trim();
+  }
+
+  sanitize(value, snapshot) {
+    let text = typeof value === "string" ? value : JSON.stringify(value, null, 2);
+    // Redact only absolute machine-specific paths, not errors or exit codes.
+    for (const [path, label] of [
+      [snapshot, "[snapshot]"],
+      [this.npmCli, "[npm-cli]"],
+      [this.out, "[audit-workspace]"],
+      [dirname(process.execPath), "[node-bin]"],
+      [process.env.USERPROFILE ?? process.env.HOME, "[user-home]"],
+    ]) {
+      if (!path) continue;
+      text = text.split(path).join(label);
+      text = text.split(path.replaceAll("\\", "/")).join(label);
+      text = text.split(path.replaceAll("\\", "\\\\")).join(label);
+    }
+    return text;
+  }
+
+  run() {
+    const startedAt = new Date().toISOString();
+    const commits = this.git(["rev-list", "--reverse", this.until]).split("\n");
+    const records = [];
+    const npmVersion = this.command(process.execPath, [this.npmCli, "--version"], this.repo);
+    for (let index = 0; index < commits.length; index++) {
+      const sha = commits[index].trim();
+      const snapshot = join(this.out, `snapshot-${index + 1}`);
+      mkdirSync(snapshot);
+      const archive = join(this.out, `snapshot-${index + 1}.tar`);
+      this.git(["archive", "--format=tar", `--output=${archive}`, sha]);
+      const extract = this.command("tar", ["-xf", archive, "-C", snapshot], this.repo);
+      if (extract.status !== 0) throw new Error(extract.stderr || extract.error);
+      const record = {
+        ordinal: index + 1,
+        sha,
+        subject: this.git(["show", "-s", "--format=%s", sha]),
+        originalCommittedAt: this.git(["show", "-s", "--format=%cI", sha]),
+        sourceTree: this.git(["rev-parse", `${sha}^{tree}`]),
+        install: "not-applicable",
+        build: "not-applicable",
+        test: "not-applicable",
+        format: "not-applicable",
+        check: "not-applicable",
+        testFiles: [],
+        commands: [],
+      };
+      if (existsSync(join(snapshot, "package.json"))) {
+        const pkg = JSON.parse(readFileSync(join(snapshot, "package.json"), "utf8"));
+        const locked = existsSync(join(snapshot, "package-lock.json"));
+        record.installMode = locked ? "npm-ci" : "npm-install-without-npm-lock";
+        record.pnpmLockPresent = existsSync(join(snapshot, "pnpm-lock.yaml"));
+        record.testFiles = existsSync(join(snapshot, "test"))
+          ? readdirSync(join(snapshot, "test")).filter((name) => /\.test\.(?:ts|mjs|js)$/.test(name))
+          : [];
+        const install = this.command(process.execPath, [
+          this.npmCli, locked ? "ci" : "install", "--ignore-scripts", "--no-audit", "--no-fund",
+        ], snapshot);
+        record.commands.push({ phase: "install", ...install });
+        record.install = HistoryAudit.classify(install);
+        if (existsSync(join(snapshot, "package-lock.json"))) {
+          record.resolvedLockSha256 = createHash("sha256")
+            .update(readFileSync(join(snapshot, "package-lock.json"))).digest("hex");
+          writeFileSync(join(this.out, "logs", `${String(index + 1).padStart(2, "0")}-${sha.slice(0, 7)}.resolved-lock.json`), readFileSync(join(snapshot, "package-lock.json")));
+        }
+        if (install.status === 0) {
+          for (const [phase, script] of [["build", "build"], ["test", "test"], ["format", "format:check"], ["check", "check"]]) {
+            if (!pkg.scripts?.[script]) { record[phase] = "script-absent"; continue; }
+            const result = this.command(process.execPath, [this.npmCli, "run", script], snapshot);
+            record.commands.push({ phase, ...result });
+            record[phase] = HistoryAudit.classify(result, phase === "test" ? record.testFiles.length > 0 : true);
+          }
+        } else {
+          for (const phase of ["build", "test", "format", "check"]) record[phase] = "blocked-by-install";
+        }
+      }
+      const logName = `${String(index + 1).padStart(2, "0")}-${sha.slice(0, 7)}.json`;
+      const log = this.sanitize(record, snapshot) + "\n";
+      writeFileSync(join(this.out, "logs", logName), log);
+      const { commands, ...summary } = record;
+      summary.log = `logs/${logName}`;
+      summary.logSha256 = createHash("sha256").update(log).digest("hex");
+      records.push(summary);
+      writeFileSync(join(this.out, "records.json"), JSON.stringify({
+        schemaVersion: 1,
+        retrospective: true,
+        baseline: this.until,
+        startedAt,
+        finishedAt: new Date().toISOString(),
+        environment: { platform: process.platform, arch: process.arch, node: process.version, npm: npmVersion.stdout.trim() },
+        methodology: "Exact remote Git trees archived into separate directories; original package scripts run without source edits. npm ci when npm lock exists; otherwise fresh npm install (pnpm lock not enforced), with observed resolved lock retained. Lifecycle install scripts disabled. Absolute machine paths redacted in logs. This is retrospective evidence, not contemporary CI.",
+        records,
+      }, null, 2) + "\n");
+      console.log(`${index + 1}/${commits.length} ${sha.slice(0, 7)} install=${record.install} build=${record.build} test=${record.test} format=${record.format} check=${record.check}`);
+    }
+    return records;
+  }
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const args = process.argv.slice(2);
+  if (args.length % 2 !== 0) throw new Error("options require --name value pairs");
+  const options = {};
+  for (let i = 0; i < args.length; i += 2) {
+    if (!["--repo", "--out", "--until", "--npm-cli"].includes(args[i])) throw new Error(`unknown option: ${args[i]}`);
+    options[args[i].slice(2)] = args[i + 1];
+  }
+  new HistoryAudit(options).run();
+}
