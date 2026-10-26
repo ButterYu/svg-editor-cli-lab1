@@ -22,6 +22,7 @@ export abstract class Shape {
     this.values.set(attr, value);
   }
   protected get acceptsText(): boolean { return false; }
+  importText(content: string): void { if(content.trim()) throw new Error(`unexpected text in <${this.tag}>`); }
   move(dx: number, dy: number): void {
     for (const key of this.horizontal) this.set(key, String(Number(this.values.get(key) ?? 0) + dx));
     for (const key of this.vertical) this.set(key, String(Number(this.values.get(key) ?? 0) + dy));

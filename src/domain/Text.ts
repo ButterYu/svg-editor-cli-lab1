@@ -1,5 +1,6 @@
 import { Shape } from './Shape.js';
 export class Text extends Shape {
+  override importText(content: string): void { this.set('text',content); }
   get tag(): string { return 'text'; }
   protected get geometry(): readonly string[] { return ["x","y"]; }
   protected get horizontal(): readonly string[] { return ["x"]; }

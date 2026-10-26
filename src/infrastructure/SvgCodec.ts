@@ -33,7 +33,7 @@ export class SvgCodec implements DrawingCodec {
         shape.set(attr.name,attr.value);
       }
       if(shape instanceof Group) { for(const child of Array.from(element.childNodes)) if(child.nodeType===1) parse(child as typeof root,shape); }
-      else { if(Array.from(element.childNodes).some(c=>c.nodeType===1)) throw new Error('nested elements require a group'); if(tag==='text') shape.set('text',element.textContent??''); }
+      else { if(Array.from(element.childNodes).some(c=>c.nodeType===1)) throw new Error('nested elements require a group'); shape.importText(element.textContent??''); }
       parent.insert(shape);
     };
     for(const child of Array.from(root.childNodes)) if(child.nodeType===1) parse(child as typeof root,d.root);
