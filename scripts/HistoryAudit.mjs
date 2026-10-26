@@ -37,6 +37,10 @@ export class HistoryAudit {
     mkdirSync(this.out, { recursive: true });
     mkdirSync(join(this.out, "logs"));
     mkdirSync(join(this.out, "bin"));
+    writeFileSync(
+      join(this.out, "verifier-used.mjs.txt"),
+      readFileSync(fileURLToPath(import.meta.url)),
+    );
     this.env = {
       ...process.env,
       npm_config_cache: join(this.out, "npm-cache"),

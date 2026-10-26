@@ -10,7 +10,8 @@
     "format": "prettier --write src test scripts doc README.md package.json tsconfig.json",
     "format:check": "prettier --check src test scripts doc README.md package.json tsconfig.json",
     "check": "tsc && node --test test/*.test.mjs && prettier --check src test scripts doc README.md package.json tsconfig.json",
-    "audit:history": "node scripts/HistoryAudit.mjs"
+    "audit:history": "node scripts/HistoryAudit.mjs",
+    "verify:audit": "node scripts/VerifyAudit.mjs"
   },
   "dependencies": {
     "@xmldom/xmldom": "0.9.12"

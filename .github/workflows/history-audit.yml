@@ -1,0 +1,35 @@
+name: Retrospective history audit
+on:
+  workflow_dispatch:
+    inputs:
+      until:
+        description: Exact historical commit SHA to audit (not a claim of original CI)
+        required: true
+        default: 6de1781a1929e58cf455e679970c5d970da40c5d
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci --ignore-scripts
+      - name: Replay exact historical trees with their original scripts
+        env:
+          AUDIT_UNTIL: ${{ inputs.until }}
+        run: npm run audit:history -- --until "$AUDIT_UNTIL" --out "$RUNNER_TEMP/history-audit-$GITHUB_RUN_ID"
+      - name: Publish a separate retrospective report
+        run: node scripts/AuditReport.mjs "$RUNNER_TEMP/history-audit-$GITHUB_RUN_ID" "$RUNNER_TEMP/history-report-$GITHUB_RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: retrospective-history-audit-${{ github.run_id }}
+          path: ${{ runner.temp }}/history-report-${{ github.run_id }}/
+          if-no-files-found: error
