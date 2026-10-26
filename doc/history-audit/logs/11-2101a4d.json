@@ -1,0 +1,100 @@
+{
+  "ordinal": 11,
+  "sha": "2101a4d3ff88fa7298485cfd247e070a8d5713cc",
+  "subject": "fix(deps): replace failing tsx startup with compiled Node execution",
+  "originalCommittedAt": "2026-10-26T15:24:29+08:00",
+  "sourceTree": "3ec86f1d2ed54b896a6a846d71198c030af2691c",
+  "install": "pass",
+  "build": "pass",
+  "test": "pass",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:00:26.153Z",
+      "finishedAt": "2026-10-26T08:00:27.336Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 5 packages in 1s\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:00:27.343Z",
+      "finishedAt": "2026-10-26T08:00:29.276Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:00:29.276Z",
+      "finishedAt": "2026-10-26T08:00:31.434Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\nℹ tests 0\nℹ suites 0\nℹ pass 0\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5.8054\n",
+      "stderr": ""
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:00:31.434Z",
+      "finishedAt": "2026-10-26T08:00:32.157Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[error] No files matching the pattern were found: \"test\".\n[error] No files matching the pattern were found: \"doc\".\n[warn] tsconfig.json\n[warn] Code style issues found in 29 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:00:32.157Z",
+      "finishedAt": "2026-10-26T08:00:37.007Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\nℹ tests 0\nℹ suites 0\nℹ pass 0\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 5.1449\n\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[error] No files matching the pattern were found: \"test\".\n[error] No files matching the pattern were found: \"doc\".\n[warn] tsconfig.json\n[warn] Code style issues found in 29 files. Run Prettier with --write to fix.\n"
+    }
+  ],
+  "installMode": "npm-install-without-npm-lock",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "ce0524d7b1e1422ce1d5aae65d96087f7b7017903d7a327ce617fc11d8d5dd1e"
+}

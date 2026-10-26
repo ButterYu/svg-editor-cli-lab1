@@ -1,0 +1,104 @@
+{
+  "ordinal": 17,
+  "sha": "6acafffd5914bada6c4dec5206125e1634dd759a",
+  "subject": "build: add reproducible npm lockfile and clean dependency graph",
+  "originalCommittedAt": "2026-10-26T15:34:09+08:00",
+  "sourceTree": "95cde2737ef3e212c98f4bb824d4e2a9f7aa17cb",
+  "install": "pass",
+  "build": "pass",
+  "test": "pass",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [
+    "architecture.test.mjs",
+    "editor.test.mjs",
+    "integration.test.mjs"
+  ],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:01:33.930Z",
+      "finishedAt": "2026-10-26T08:01:34.881Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 5 packages in 813ms\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:01:34.882Z",
+      "finishedAt": "2026-10-26T08:01:36.782Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:01:36.782Z",
+      "finishedAt": "2026-10-26T08:01:39.246Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.7673ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (3.1363ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.4767ms)\n✔ commands are atomic and failed edit preserves redo (0.8344ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.1239ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.5253ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.3348ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.6519ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.7738ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.8271ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (136.016ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 308.6911\n",
+      "stderr": ""
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:01:39.246Z",
+      "finishedAt": "2026-10-26T08:01:40.020Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[warn] test/architecture.test.mjs\n[warn] test/editor.test.mjs\n[warn] test/integration.test.mjs\n[error] No files matching the pattern were found: \"doc\".\n[warn] tsconfig.json\n[warn] Code style issues found in 32 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:01:40.020Z",
+      "finishedAt": "2026-10-26T08:01:45.249Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.6051ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.9351ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.4312ms)\n✔ commands are atomic and failed edit preserves redo (0.8239ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.3732ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.5976ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.3616ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.1885ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.8322ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.7606ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (131.8225ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 296.2213\n\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[warn] test/architecture.test.mjs\n[warn] test/editor.test.mjs\n[warn] test/integration.test.mjs\n[error] No files matching the pattern were found: \"doc\".\n[warn] tsconfig.json\n[warn] Code style issues found in 32 files. Run Prettier with --write to fix.\n"
+    }
+  ],
+  "installMode": "npm-ci",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "3fce00786e963c3d1d78add58e9f7493f34d21f3806c1188b79d56ed864049d7"
+}

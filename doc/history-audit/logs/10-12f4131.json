@@ -1,0 +1,100 @@
+{
+  "ordinal": 10,
+  "sha": "12f4131e90a9cdde5c4de7a9bf42fbda9d06892f",
+  "subject": "fix: handle nullable XML local names after parser upgrade",
+  "originalCommittedAt": "2026-10-26T15:24:27+08:00",
+  "sourceTree": "763842d064fbf3f29193f9d8b907408d56b03925",
+  "install": "pass",
+  "build": "pass",
+  "test": "no-tests-at-revision",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:00:19.244Z",
+      "finishedAt": "2026-10-26T08:00:20.632Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 10 packages in 1s\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:00:20.633Z",
+      "finishedAt": "2026-10-26T08:00:22.549Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:00:22.549Z",
+      "finishedAt": "2026-10-26T08:00:22.874Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> tsx --test test/*.test.ts\n\n",
+      "stderr": "node:os:306\r\n    throw new ERR_SYSTEM_ERROR(ctx);\r\n          ^\r\n\r\nSystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd returned ENOMEM (not enough memory)\r\n    at Object.userInfo (node:os:306:11)\r\n    at file:///[snapshot]/node_modules/tsx/dist/temporary-directory-CwHp0_NW.mjs:1:84\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\r\n    at async node:internal/modules/esm/loader:647:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  code: 'ERR_SYSTEM_ERROR',\r\n  info: {\r\n    errno: -4057,\r\n    code: 'ENOMEM',\r\n    message: 'not enough memory',\r\n    syscall: 'uv_os_get_passwd'\r\n  },\r\n  errno: [Getter/Setter],\r\n  syscall: [Getter/Setter]\r\n}\r\n\r\nNode.js v24.22.1\r\n"
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:00:22.874Z",
+      "finishedAt": "2026-10-26T08:00:23.558Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[error] No files matching the pattern were found: \"test\".\n[error] No files matching the pattern were found: \"doc\".\n[warn] package.json\n[warn] tsconfig.json\n[warn] Code style issues found in 30 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:00:23.558Z",
+      "finishedAt": "2026-10-26T08:00:25.943Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> tsx --test test/*.test.ts\n\n",
+      "stderr": "node:os:306\r\n    throw new ERR_SYSTEM_ERROR(ctx);\r\n          ^\r\n\r\nSystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd returned ENOMEM (not enough memory)\r\n    at Object.userInfo (node:os:306:11)\r\n    at file:///[snapshot]/node_modules/tsx/dist/temporary-directory-CwHp0_NW.mjs:1:84\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\r\n    at async node:internal/modules/esm/loader:647:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  code: 'ERR_SYSTEM_ERROR',\r\n  info: {\r\n    errno: -4057,\r\n    code: 'ENOMEM',\r\n    message: 'not enough memory',\r\n    syscall: 'uv_os_get_passwd'\r\n  },\r\n  errno: [Getter/Setter],\r\n  syscall: [Getter/Setter]\r\n}\r\n\r\nNode.js v24.22.1\r\n"
+    }
+  ],
+  "installMode": "npm-install-without-npm-lock",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "75ed52ce2e60da74666a630b04b9ac671854e1d980e010c31a0227de5db8a9fc"
+}

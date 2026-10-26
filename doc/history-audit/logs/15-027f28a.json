@@ -1,0 +1,104 @@
+{
+  "ordinal": 15,
+  "sha": "027f28ac63e1692c9d79b83da055c5a8fb8710aa",
+  "subject": "test: add real file and CLI replay integration coverage",
+  "originalCommittedAt": "2026-10-26T15:34:02+08:00",
+  "sourceTree": "5f699b2cf9747d044f512a830ce76ab2ef130e2e",
+  "install": "pass",
+  "build": "pass",
+  "test": "fail",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [
+    "architecture.test.mjs",
+    "editor.test.mjs",
+    "integration.test.mjs"
+  ],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:01:10.817Z",
+      "finishedAt": "2026-10-26T08:01:12.010Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 5 packages in 1s\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:01:12.011Z",
+      "finishedAt": "2026-10-26T08:01:13.881Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:01:13.881Z",
+      "finishedAt": "2026-10-26T08:01:16.302Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.625ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.9032ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.5267ms)\n✔ commands are atomic and failed edit preserves redo (0.6912ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.3076ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.6116ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.512ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.2422ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.8013ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.9957ms)\n✖ real CLI replays assignment flowchart through stdin and produces readable SVG (141.149ms)\nℹ tests 11\nℹ suites 0\nℹ pass 10\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 311.2877\n\n✖ failing tests:\n\ntest at test\\integration.test.mjs:12:1\n✖ real CLI replays assignment flowchart through stdin and produces readable SVG (141.149ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  8 !== 9\n  \n      at TestContext.<anonymous> (file:///[snapshot]/test/integration.test.mjs:13:514)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 8,\n    expected: 9,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+      "stderr": ""
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:01:16.302Z",
+      "finishedAt": "2026-10-26T08:01:17.049Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/application/AddToCommand.ts\n[warn] src/application/CreateCommand.ts\n[warn] src/application/DeleteCommand.ts\n[warn] src/application/DrawingCodec.ts\n[warn] src/application/EditCommand.ts\n[warn] src/application/FileStore.ts\n[warn] src/application/GroupCommand.ts\n[warn] src/application/History.ts\n[warn] src/application/MoveCommand.ts\n[warn] src/application/OrderCommand.ts\n[warn] src/application/ScaleCommand.ts\n[warn] src/application/SetCommand.ts\n[warn] src/application/UngroupCommand.ts\n[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/domain/Circle.ts\n[warn] src/domain/Drawing.ts\n[warn] src/domain/Ellipse.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Line.ts\n[warn] src/domain/Rect.ts\n[warn] src/domain/Shape.ts\n[warn] src/domain/ShapeFactory.ts\n[warn] src/domain/Text.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[warn] test/architecture.test.mjs\n[warn] test/editor.test.mjs\n[warn] test/integration.test.mjs\n[error] No files matching the pattern were found: \"doc\".\n[warn] tsconfig.json\n[warn] Code style issues found in 32 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:01:17.049Z",
+      "finishedAt": "2026-10-26T08:01:21.574Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.7351ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.8862ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.4807ms)\n✔ commands are atomic and failed edit preserves redo (0.6156ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.5703ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.6166ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.7966ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.2657ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.807ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.5568ms)\n✖ real CLI replays assignment flowchart through stdin and produces readable SVG (143.977ms)\nℹ tests 11\nℹ suites 0\nℹ pass 10\nℹ fail 1\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 320.7639\n\n✖ failing tests:\n\ntest at test\\integration.test.mjs:12:1\n✖ real CLI replays assignment flowchart through stdin and produces readable SVG (143.977ms)\n  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:\n  \n  8 !== 9\n  \n      at TestContext.<anonymous> (file:///[snapshot]/test/integration.test.mjs:13:514)\n      at Test.runInAsyncScope (node:async_hooks:227:14)\n      at Test.run (node:internal/test_runner/test:1402:25)\n      at Test.processPendingSubtests (node:internal/test_runner/test:974:18)\n      at Test.postRun (node:internal/test_runner/test:1542:19)\n      at Test.run (node:internal/test_runner/test:1467:12)\n      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {\n    generatedMessage: true,\n    code: 'ERR_ASSERTION',\n    actual: 8,\n    expected: 9,\n    operator: 'strictEqual',\n    diff: 'simple'\n  }\n",
+      "stderr": ""
+    }
+  ],
+  "installMode": "npm-install-without-npm-lock",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "ce0524d7b1e1422ce1d5aae65d96087f7b7017903d7a327ce617fc11d8d5dd1e"
+}
