@@ -16,7 +16,11 @@
 | `examples/`           | 可回放脚本、生成的 SVG、实际输出、外部 SVG 输入                  | flowchart.txt、other.svg                                               |
 | `doc/`                | 方案、过程、验证与需求追踪                                       | 本文件、architecture.puml、requirements.md                             |
 
-组件图的 PlantUML 源文件为 [architecture.puml](architecture.puml)，下列同源图便于没有 PlantUML 扩展的读者直接理解：
+组件图的 PlantUML 源文件为 [architecture.puml](architecture.puml)，渲染结果如下（仓库中直接可见）：
+
+![PlantUML 组件图](architecture.svg)
+
+下列同源图便于在支持 Mermaid 的阅读器中查看：
 
 ```mermaid
 flowchart TD
