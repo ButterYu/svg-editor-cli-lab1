@@ -1,0 +1,104 @@
+{
+  "ordinal": 25,
+  "sha": "1056d7cb5df4e5998adaa2904b7d4e30a38e3e1c",
+  "subject": "docs: include rendered PlantUML architecture diagram",
+  "originalCommittedAt": "2026-10-26T15:34:37+08:00",
+  "sourceTree": "2413fb3fa608d3359e277ae3e467d5bf342f6b55",
+  "install": "pass",
+  "build": "pass",
+  "test": "pass",
+  "format": "pass",
+  "check": "pass",
+  "testFiles": [
+    "architecture.test.mjs",
+    "editor.test.mjs",
+    "integration.test.mjs"
+  ],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:03:02.959Z",
+      "finishedAt": "2026-10-26T08:03:03.908Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 5 packages in 809ms\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:03:03.909Z",
+      "finishedAt": "2026-10-26T08:03:05.773Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:03:05.773Z",
+      "finishedAt": "2026-10-26T08:03:08.006Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> tsc && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.6288ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.9939ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.4119ms)\n✔ commands are atomic and failed edit preserves redo (0.6391ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.1288ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.6146ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.5064ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.2249ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.818ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.5518ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (140.048ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 307.9807\n",
+      "stderr": ""
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:03:08.006Z",
+      "finishedAt": "2026-10-26T08:03:08.797Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\nAll matched files use Prettier code style!\n",
+      "stderr": ""
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:03:08.797Z",
+      "finishedAt": "2026-10-26T08:03:11.451Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> tsc && node --test test/*.test.mjs && prettier --check src test doc README.md package.json tsconfig.json\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.464ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.9231ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.3738ms)\n✔ commands are atomic and failed edit preserves redo (0.6679ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.1035ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.4845ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (5.0871ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.2659ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.7619ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.0578ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (133.8668ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 298.1147\nChecking formatting...\nAll matched files use Prettier code style!\n",
+      "stderr": ""
+    }
+  ],
+  "installMode": "npm-ci",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "3fce00786e963c3d1d78add58e9f7493f34d21f3806c1188b79d56ed864049d7"
+}

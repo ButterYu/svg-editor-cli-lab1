@@ -1,0 +1,104 @@
+{
+  "ordinal": 21,
+  "sha": "22c35cb45de6421e13af70ccc89f3e261deb5476",
+  "subject": "style: format commands and transaction history",
+  "originalCommittedAt": "2026-10-26T15:34:24+08:00",
+  "sourceTree": "ae7f6a25c9e39b54f9d852f72a38f1d199ca45e8",
+  "install": "pass",
+  "build": "pass",
+  "test": "pass",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [
+    "architecture.test.mjs",
+    "editor.test.mjs",
+    "integration.test.mjs"
+  ],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "ci",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T08:02:20.169Z",
+      "finishedAt": "2026-10-26T08:02:21.119Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 5 packages in 815ms\n",
+      "stderr": ""
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T08:02:21.120Z",
+      "finishedAt": "2026-10-26T08:02:22.949Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T08:02:22.949Z",
+      "finishedAt": "2026-10-26T08:02:25.318Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.5967ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (3.0777ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.4114ms)\n✔ commands are atomic and failed edit preserves redo (0.7829ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.1733ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.5195ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.342ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.3054ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.8135ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (4.154ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (135.9502ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 300.7903\n",
+      "stderr": ""
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T08:02:25.318Z",
+      "finishedAt": "2026-10-26T08:02:26.104Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[warn] test/architecture.test.mjs\n[warn] test/editor.test.mjs\n[warn] test/integration.test.mjs\n[warn] doc/README.md\n[warn] doc/requirements.md\n[warn] tsconfig.json\n[warn] Code style issues found in 12 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T08:02:26.104Z",
+      "finishedAt": "2026-10-26T08:02:31.245Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> npm run build --silent && node --test test/*.test.mjs\n\n✔ domain has no application, infrastructure, CLI or Node imports; application has no adapters (2.7463ms)\n✔ all six shapes, quote parsing, comments, exact errors and case-sensitive ids (2.9316ms)\n✔ recursive move and scale, every shape geometry, styles and text whitelist (1.418ms)\n✔ commands are atomic and failed edit preserves redo (0.6975ms)\n✔ group order, cross-parent collection, cycles, nested ungroup and subtree delete (1.6024ms)\n✔ front is last SVG sibling, back is first; undo restores order (0.5808ms)\n✔ IO barriers, display does not enter history, failed IO preserves state/history (4.4445ms)\n✔ SVG round trip escapes text and styles, omissions retain default appearance (1.2607ms)\n✔ import assigns collision-free ids with warnings, rejects duplicates and malformed SVG atomically (0.8531ms)\n✔ real file adapter writes/reads Unicode and maps IO errors (14.6426ms)\n✔ real CLI replays assignment flowchart through stdin and produces readable SVG (138.8539ms)\nℹ tests 11\nℹ suites 0\nℹ pass 11\nℹ fail 0\nℹ cancelled 0\nℹ skipped 0\nℹ todo 0\nℹ duration_ms 318.01\n\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/cli/Editor.ts\n[warn] src/cli/Main.ts\n[warn] src/cli/Tokenizer.ts\n[warn] src/cli/TreeRenderer.ts\n[warn] src/infrastructure/NodeFileStore.ts\n[warn] src/infrastructure/SvgCodec.ts\n[warn] test/architecture.test.mjs\n[warn] test/editor.test.mjs\n[warn] test/integration.test.mjs\n[warn] doc/README.md\n[warn] doc/requirements.md\n[warn] tsconfig.json\n[warn] Code style issues found in 12 files. Run Prettier with --write to fix.\n"
+    }
+  ],
+  "installMode": "npm-ci",
+  "pnpmLockPresent": true,
+  "resolvedLockSha256": "3fce00786e963c3d1d78add58e9f7493f34d21f3806c1188b79d56ed864049d7"
+}
