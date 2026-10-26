@@ -1,0 +1,33 @@
+@startuml
+title SVG CLI Phase 1 — 模块依赖
+skinparam componentStyle rectangle
+package "cli" {
+  [Main / Composition Root] as Main
+  [Editor / Tokenizer / TreeRenderer] as CLI
+}
+package "application" {
+  [EditCommand / Concrete Commands / History] as App
+  interface FileStore
+  interface DrawingCodec
+}
+package "domain" {
+  [Drawing / Shape / Group / Six Shapes / ShapeFactory] as Domain
+}
+package "infrastructure" {
+  [NodeFileStore] as FS
+  [SvgCodec] as XML
+}
+Main --> CLI
+Main --> FS
+Main --> XML
+CLI --> App
+CLI --> Domain
+CLI --> FileStore
+CLI --> DrawingCodec
+App --> Domain
+FS ..|> FileStore
+XML ..|> DrawingCodec
+XML --> Domain
+XML --> [xmldom]
+FS --> [Node fs]
+@enduml
