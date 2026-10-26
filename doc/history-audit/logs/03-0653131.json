@@ -1,0 +1,100 @@
+{
+  "ordinal": 3,
+  "sha": "065313152c2e91855d48b78e5e7321ee204fd2e4",
+  "subject": "feat: add encapsulated shape and composite document model",
+  "originalCommittedAt": "2026-10-26T15:24:13+08:00",
+  "sourceTree": "606689ab56920fb1de7bbcdfb905be0bb0cd9ebf",
+  "install": "pass",
+  "build": "pass",
+  "test": "no-tests-at-revision",
+  "format": "fail",
+  "check": "fail",
+  "testFiles": [],
+  "commands": [
+    {
+      "phase": "install",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "install",
+        "--ignore-scripts",
+        "--no-audit",
+        "--no-fund"
+      ],
+      "startedAt": "2026-10-26T07:59:31.928Z",
+      "finishedAt": "2026-10-26T07:59:33.314Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\nadded 10 packages in 1s\n",
+      "stderr": "npm warn deprecated @xmldom/xmldom@0.8.11: this version has critical issues, please update to the latest version\n"
+    },
+    {
+      "phase": "build",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "build"
+      ],
+      "startedAt": "2026-10-26T07:59:33.316Z",
+      "finishedAt": "2026-10-26T07:59:35.095Z",
+      "status": 0,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n",
+      "stderr": ""
+    },
+    {
+      "phase": "test",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "test"
+      ],
+      "startedAt": "2026-10-26T07:59:35.095Z",
+      "finishedAt": "2026-10-26T07:59:35.423Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 test\n> tsx --test test/*.test.ts\n\n",
+      "stderr": "node:os:306\r\n    throw new ERR_SYSTEM_ERROR(ctx);\r\n          ^\r\n\r\nSystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd returned ENOMEM (not enough memory)\r\n    at Object.userInfo (node:os:306:11)\r\n    at file:///[snapshot]/node_modules/tsx/dist/temporary-directory-CwHp0_NW.mjs:1:84\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\r\n    at async node:internal/modules/esm/loader:647:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  code: 'ERR_SYSTEM_ERROR',\r\n  info: {\r\n    errno: -4057,\r\n    code: 'ENOMEM',\r\n    message: 'not enough memory',\r\n    syscall: 'uv_os_get_passwd'\r\n  },\r\n  errno: [Getter/Setter],\r\n  syscall: [Getter/Setter]\r\n}\r\n\r\nNode.js v24.22.1\r\n"
+    },
+    {
+      "phase": "format",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "format:check"
+      ],
+      "startedAt": "2026-10-26T07:59:35.423Z",
+      "finishedAt": "2026-10-26T07:59:35.987Z",
+      "status": 2,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 format:check\n> prettier --check src test doc README.md package.json tsconfig.json\n\nChecking formatting...\n",
+      "stderr": "[warn] src/domain/Drawing.ts\n[warn] src/domain/Group.ts\n[warn] src/domain/Shape.ts\n[error] No files matching the pattern were found: \"test\".\n[error] No files matching the pattern were found: \"doc\".\n[warn] package.json\n[warn] tsconfig.json\n[warn] Code style issues found in 5 files. Run Prettier with --write to fix.\n"
+    },
+    {
+      "phase": "check",
+      "command": [
+        "[node-bin]\\node.exe",
+        "[npm-cli]",
+        "run",
+        "check"
+      ],
+      "startedAt": "2026-10-26T07:59:35.987Z",
+      "finishedAt": "2026-10-26T07:59:38.237Z",
+      "status": 1,
+      "signal": null,
+      "error": null,
+      "stdout": "\n> svg-editor-cli-phase1@0.1.0 check\n> npm run build && npm test && npm run format:check\n\n\n> svg-editor-cli-phase1@0.1.0 build\n> tsc\n\n\n> svg-editor-cli-phase1@0.1.0 test\n> tsx --test test/*.test.ts\n\n",
+      "stderr": "node:os:306\r\n    throw new ERR_SYSTEM_ERROR(ctx);\r\n          ^\r\n\r\nSystemError [ERR_SYSTEM_ERROR]: A system error occurred: uv_os_get_passwd returned ENOMEM (not enough memory)\r\n    at Object.userInfo (node:os:306:11)\r\n    at file:///[snapshot]/node_modules/tsx/dist/temporary-directory-CwHp0_NW.mjs:1:84\r\n    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)\r\n    at async node:internal/modules/esm/loader:647:26\r\n    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {\r\n  code: 'ERR_SYSTEM_ERROR',\r\n  info: {\r\n    errno: -4057,\r\n    code: 'ENOMEM',\r\n    message: 'not enough memory',\r\n    syscall: 'uv_os_get_passwd'\r\n  },\r\n  errno: [Getter/Setter],\r\n  syscall: [Getter/Setter]\r\n}\r\n\r\nNode.js v24.22.1\r\n"
+    }
+  ],
+  "installMode": "npm-install-without-npm-lock",
+  "pnpmLockPresent": false,
+  "resolvedLockSha256": "70e36cc2ed8a49c50b55549abaa6bdb303dd3d98f0a908c6aa35806aa14fcb1e"
+}

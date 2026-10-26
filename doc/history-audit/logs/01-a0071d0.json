@@ -1,0 +1,14 @@
+{
+  "ordinal": 1,
+  "sha": "a0071d0615c0735d5084a0d6405f4208ca2da60d",
+  "subject": "chore: establish consistent repository line endings",
+  "originalCommittedAt": "2026-10-26T15:18:20+08:00",
+  "sourceTree": "ae96cac9e71b813db796a50bb2875e7653c36c66",
+  "install": "not-applicable",
+  "build": "not-applicable",
+  "test": "not-applicable",
+  "format": "not-applicable",
+  "check": "not-applicable",
+  "testFiles": [],
+  "commands": []
+}
