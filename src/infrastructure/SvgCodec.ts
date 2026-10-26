@@ -25,7 +25,7 @@ export class SvgCodec implements DrawingCodec {
     const elements=Array.from(root.getElementsByTagName('*'));
     for(const e of [root,...elements]) { const id=e.getAttribute('id'); if(id) {if(ids.has(id)) throw new Error(`id already exists: ${id}`);ids.add(id);} }
     const parse=(element: typeof root,parent: Group): void=>{
-      let id=element.getAttribute('id');const tag=element.localName;
+      let id=element.getAttribute('id');const tag=element.localName ?? element.tagName;
       if(!id) { let n=1;while(ids.has(`${tag}${n}`)) n++;id=`${tag}${n}`;ids.add(id);warnings.push(`warning: assigned id ${id} to unnamed <${tag}>`); }
       const shape=new ShapeFactory().empty(tag,id);
       for(const attr of Array.from(element.attributes)) {
